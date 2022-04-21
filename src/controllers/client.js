@@ -55,6 +55,7 @@ async function signup(apikey, debug = false) {
             username = generateUsername({separator: '_'})
         } while (username.length < 4 || username.length > 25 || username.includes('-'))
         if (debug) console.log('Username:', username)
+        await page.locator('input#signup-username').click()
         await page.keyboard.type(username, {delay: 100})
         await page.keyboard.press('Tab', {delay: 100})
         const password = passGenerator.generate({
@@ -113,6 +114,7 @@ async function login(email, user, pass, apikey, debug = false) {
         const page = await context.newPage()
         await page.goto(`https://www.twitch.tv/login`)
         if (debug) console.log('Log in...')
+        await page.locator('input#login-username').click()
         await page.keyboard.type(user, {delay: 100})
         await page.keyboard.press('Tab', {delay: 100})
         await page.keyboard.type(pass,{delay: 100})
