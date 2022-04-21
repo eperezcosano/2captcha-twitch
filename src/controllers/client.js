@@ -30,6 +30,10 @@ async function handleCaptcha(page, apikey) {
 }
 
 async function signup(apikey) {
+    if (!apikey) {
+        console.error('No API key provided')
+        return
+    }
     const browser = await firefox.launch({ headless: true })
     try {
         const context = await browser.newContext({ locale: 'en-GB' })
@@ -93,6 +97,10 @@ async function signup(apikey) {
 }
 
 async function login(email, user, pass, apikey) {
+    if (!apikey) {
+        console.error('No API key provided')
+        return
+    }
     const browser = await firefox.launch({ headless: true })
     try {
         const context = await browser.newContext({ locale: 'en-GB' })
