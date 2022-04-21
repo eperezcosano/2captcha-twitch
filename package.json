@@ -1,0 +1,29 @@
+{
+  "name": "2captcha-twitch",
+  "version": "0.0.1",
+  "description": "2captcha implementation for twitch",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eperezcosano/2captcha-twitch.git"
+  },
+  "keywords": [
+    "2captcha",
+    "twitch",
+    "funcaptcha",
+    "arkose",
+    "labs",
+    "auth",
+    "puppeteer",
+    "playwright"
+  ],
+  "author": "Izan Pérez Cosano",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/eperezcosano/2captcha-twitch/issues"
+  },
+  "homepage": "https://github.com/eperezcosano/2captcha-twitch#readme"
+}
