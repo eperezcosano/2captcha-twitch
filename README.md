@@ -5,17 +5,11 @@ Log in and Sign up on Twitch using  [2captcha](https://2captcha.com?from=2203166
 
 ### Install
 
----
-
 ```
 npm i 2captcha-twitch
 ```
 
----
-
 ### Log in
-
----
 
 ```js
 const twitch = require('2captcha-twitch')
@@ -40,8 +34,6 @@ twitch.login(
 
 ### Sign up
 
----
-
 ```js
 const twitch = require('2captcha-twitch')
 
@@ -55,7 +47,6 @@ twitch.signup(
 ```
 * `apikey`: `string` is your 2captcha API key
 * `debug`: `(Optional) bool` debug mode
----
 
 <hr>
 <div style="text-align: center">
