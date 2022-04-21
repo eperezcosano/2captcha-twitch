@@ -40,7 +40,7 @@ async function postApiCaptchaCheckError(res) {
     if (!status && critical.includes(request)) throw new Error(request)
 }
 
-async function sendGridCaptcha(hint, apikey) {
+async function sendGridCaptcha(hint, apikey, debug = false) {
     const data = new FormData()
     data.append('key', apikey)
     data.append('method', 'post')
@@ -56,11 +56,11 @@ async function sendGridCaptcha(hint, apikey) {
     const headers = {
         ...data.getHeaders()
     }
-    console.log('   >> POST Captcha')
+    if (debug) console.log('   >> POST Captcha')
     return await request(url, 'POST', headers, data, true)
 }
 
-async function getCaptcha(id, apikey) {
+async function getCaptcha(id, apikey, debug = false) {
     const params = new URLSearchParams({
         key: apikey,
         action: 'get',
@@ -68,11 +68,11 @@ async function getCaptcha(id, apikey) {
         json: '1',
     }).toString()
     const url = `http://2captcha.com/res.php?${params}`
-    console.log('   >> GET Solution')
+    if (debug) console.log('   >> GET Solution')
     return await request(url, 'GET')
 }
 
-async function reportAnswer(isValid, id, apikey) {
+async function reportAnswer(isValid, id, apikey, debug = false) {
     const params = new URLSearchParams({
         key: apikey,
         action: isValid ? 'reportgood' : 'reportbad',
@@ -80,38 +80,38 @@ async function reportAnswer(isValid, id, apikey) {
         json: '1',
     }).toString()
     const url = `http://2captcha.com/res.php?${params}`
-    console.log('   >> GET Solution')
+    if (debug) console.log('   >> GET Solution')
     return await request(url, 'GET')
 }
 
-async function solveGridCaptcha(hint, apikey) {
+async function solveGridCaptcha(hint, apikey, debug = false) {
     try {
-        const res = await sendGridCaptcha(hint, apikey)
-        console.log(res)
+        const res = await sendGridCaptcha(hint, apikey, debug)
+        if (debug) console.log(res)
         await postApiCaptchaCheckError(res)
-        console.log('   << ID', res.body.request)
+        if (debug) console.log('   << ID', res.body.request)
         for (let i = 0; i < 50; i++) {
             await new Promise(resolve => setTimeout(resolve, 5000))
-            const check = await getCaptcha(res.body.request, apikey)
-            console.log(check)
+            const check = await getCaptcha(res.body.request, apikey, debug)
+            if (debug) console.log(check)
             await postApiCaptchaCheckError(check)
             if (check.body.status) {
                 if (!check.body.request ||
                     !check.body.request.startsWith('click:') ||
                     check.body.request.split(':')[1].includes('/')) {
-                    console.log('REPORT BAD')
-                    await reportAnswer(false, res.body.request, apikey)
+                    if (debug) console.log('REPORT BAD')
+                    await reportAnswer(false, res.body.request, apikey, debug)
                     return {x: 0, y: 0}
                 } else {
-                    console.log('REPORT GOOD')
-                    await reportAnswer(true, res.body.request, apikey)
+                    if (debug) console.log('REPORT GOOD')
+                    await reportAnswer(true, res.body.request, apikey, debug)
                     const tile = parseInt(check.body.request.split(':')[1])
                     const x = 50 + ((tile - 1) % 3) * 100
                     const y = 50 + Math.floor((tile - 1) / 3) * 100
                     return {x, y}
                 }
             }
-            console.log('   <<', check.body.request)
+            if (debug) console.log('   <<', check.body.request)
         }
     } catch (error) {
         console.error(error)
