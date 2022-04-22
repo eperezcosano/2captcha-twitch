@@ -51,6 +51,7 @@ async function sendGridCaptcha(hint, apikey, debug = false) {
     data.append('recaptchacols', 3)
     data.append('lang', 'en')
     data.append('json', '1')
+    data.append('soft_id', '3373')
 
     const url = 'http://2captcha.com/in.php'
     const headers = {

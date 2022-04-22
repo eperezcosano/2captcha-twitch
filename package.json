@@ -1,6 +1,6 @@
 {
   "name": "2captcha-twitch",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "2captcha implementation for twitch",
   "main": "src/index.js",
   "scripts": {
